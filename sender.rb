@@ -9,7 +9,9 @@ conn.start
 ch = conn.create_channel
 q  = ch.queue('hello') 
 
-ch.default_exchange.publish("Hello World!!", routing_key: q.name)
-puts " [x] Sent 'Hello World!!'"
+msg = ARGV.empty? ? "Hello world!" : ARGV.join(" ")
+
+q.publish(msg, persistent: true)
+puts " [x] Sent '#{msg}'"
 
 conn.close
