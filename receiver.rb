@@ -7,8 +7,10 @@ conn = Bunny.new
 conn.start
 
 ch = conn.create_channel
-q  = ch.queue('hello_queue', durable: true)
-ch.prefetch(1)
+x = ch.fanout("logs")
+q  = ch.queue('', exclusive: true)
+
+q.bind(x)
 
 puts " [*] Waiting for messages in #{q.name}. To exit press CTRL+C"
 begin
@@ -20,5 +22,6 @@ begin
     ch.ack(delivery_info.delivery_tag)
   end
 rescue Interrupt => _
+  ch.close
   conn.close
 end

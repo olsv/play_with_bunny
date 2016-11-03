@@ -7,11 +7,11 @@ conn = Bunny.new
 conn.start
 
 ch = conn.create_channel
-q  = ch.queue('hello_queue', durable: true)
+x = ch.fanout("logs")
 
 msg = ARGV.empty? ? "Hello world!" : ARGV.join(" ")
 
-q.publish(msg, persistent: true)
+x.publish(msg)
 puts " [x] Sent '#{msg}'"
 
 conn.close
