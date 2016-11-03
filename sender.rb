@@ -7,7 +7,7 @@ conn = Bunny.new
 conn.start
 
 ch = conn.create_channel
-q  = ch.queue('hello') 
+q  = ch.queue('hello_queue', durable: true)
 
 msg = ARGV.empty? ? "Hello world!" : ARGV.join(" ")
 
