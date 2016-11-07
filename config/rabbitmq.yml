@@ -1,0 +1,6 @@
+:development:
+  :host: rabbitmq
+  :user: user
+  :pass: pass
+  :vhost: bunnytest
+  :port: 5672

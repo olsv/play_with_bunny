@@ -1,0 +1,20 @@
+version: '2'
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "8080:15672"
+    environment:
+      RABBITMQ_ERLANG_COOKIE: 'mycookie'
+      RABBITMQ_DEFAULT_USER: 'user'
+      RABBITMQ_DEFAULT_PASS: 'pass'
+      RABBITMQ_DEFAULT_VHOST: 'bunnytest'
+  app:
+    build: .
+    command: ruby -rubygems receiver.rb
+    volumes:
+      - .:/myapp
+    depends_on:
+      - rabbitmq
+    links:
+      - rabbitmq
